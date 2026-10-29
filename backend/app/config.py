@@ -11,8 +11,10 @@ class Settings(BaseModel):
     APP_NAME: str = "LinkLens API"
     APP_VERSION: str = "1.0.0"
     HOST: str = os.getenv("HOST", "127.0.0.1")
-    PORT: int = int(os.getenv("PORT", "8000"))
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "sqlite:///./linklens.db")
+    DATABASE_URL: str = (
+        "sqlite:////tmp/linklens.db" if os.getenv("VERCEL") 
+        else os.getenv("DATABASE_URL", "sqlite:///./linklens.db")
+    )
     CORS_ORIGINS: list[str] = [
         origin.strip() 
         for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",") 
